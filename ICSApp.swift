@@ -13,6 +13,7 @@ struct ICSApp: App {
     
     @StateObject private var auth = AuthManager.shared
     @StateObject private var router = AppRouter()
+    @StateObject private var sleepReportStore = SleepReportStore()
     
     init() {
         FirebaseApp.configure()
@@ -23,6 +24,7 @@ struct ICSApp: App {
             RootView()
                 .environmentObject(auth)
                 .environmentObject(router)
+                .environmentObject(sleepReportStore)
         }
     }
 }

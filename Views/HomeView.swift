@@ -11,6 +11,8 @@ import FirebaseAuth
 struct HomeView: View {
     
     @EnvironmentObject var router: AppRouter
+    @EnvironmentObject var sleepReportStore: SleepReportStore
+    @EnvironmentObject var tabBarViewModel: CustomTabBarViewModel
     
     var body: some View {
         ScrollView {
@@ -67,14 +69,25 @@ struct HomeView: View {
                 .padding(.horizontal)
                 .frame(height: 100)
                 
-                
-                // MARK: - Sleep Analysis Image
-                Image("3.last sleep analysis 1-016")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    //.clipped() // ✅ required with scaledToFill
+                // MARK: - Last Sleep Analysis
+                Group {
+                    if let report = sleepReportStore.lastReport {
+                        LastSleepAnalysisCard(report: report)
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                tabBarViewModel.index = 1
+                            }
+                    } else {
+                        SleepReportEmptyState(
+                            title: "Last Sleep Analysis",
+                            message: "Analyze your sleep to see your latest report here.",
+                            actionTitle: "Analyze Sleep"
+                        ) {
+                            tabBarViewModel.index = 4
+                        }
+                        .padding(.horizontal)
+                    }
+                }
                 
                 // MARK: - Community Blogs
                 VStack(alignment: .leading, spacing: 8) {
@@ -87,7 +100,6 @@ struct HomeView: View {
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
                         .frame(height: 160)
-                        //.clipped() // ✅ no more negative padding needed
                 }
                 
                 // MARK: - Dr. Owl Blogs
@@ -110,4 +122,6 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(AppRouter())
+        .environmentObject(SleepReportStore())
+        .environmentObject(CustomTabBarViewModel())
 }

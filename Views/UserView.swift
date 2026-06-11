@@ -75,7 +75,7 @@ struct UserView: View {
         }
         .padding()
         .onAppear {
-            loadSavedImage() // ✅ load image when view opens
+            loadSavedImage() 
         }
         .alert(alertMessage, isPresented: $showSaveAlert) {
             Button("OK", role: .cancel) { }
@@ -108,7 +108,7 @@ struct UserView: View {
                 try data.write(to: url)
                 
                 DispatchQueue.main.async {
-                    savedImageName = fileName // ✅ store file reference
+                    savedImageName = fileName
                     alertMessage = "Image saved locally!"
                     showSaveAlert = true
                 }

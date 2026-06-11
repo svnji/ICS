@@ -26,6 +26,7 @@ struct CustomTabBar: View {
                 AnalyzeSleepView()
             }
         }
+        .environmentObject(vm)
         .navigationBarBackButtonHidden(true)
         CustomTaps(index: $vm.index)
     }
@@ -126,4 +127,5 @@ struct CustomTaps: View {
 
 #Preview {
     CustomTabBar()
+        .environmentObject(SleepReportStore())
 }
