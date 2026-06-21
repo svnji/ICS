@@ -67,10 +67,10 @@ struct AnalyzeSleepView: View {
                 .font(.headline)
                 .padding(.horizontal)
 
-            Text("Raw EEG files (with Timestamp + EEG) are converted on-device into 30-second epochs automatically.")
-                .font(.caption)
-                .foregroundColor(.gray)
-                .padding(.horizontal)
+//            Text("Raw EEG files (with Timestamp + EEG) are converted on-device into 30-second epochs automatically.")
+//                .font(.caption)
+//                .foregroundColor(.gray)
+//                .padding(.horizontal)
 
             VStack(spacing: 12) {
                 if isAnalyzing {

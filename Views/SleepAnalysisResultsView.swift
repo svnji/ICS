@@ -7,7 +7,7 @@ import SwiftUI
 
 struct SleepAnalysisResultsView: View {
     let result: SleepAnalysisResult
-
+    
     private var scoreColor: Color {
         switch result.sleepQuality {
         case "Good":
@@ -18,7 +18,7 @@ struct SleepAnalysisResultsView: View {
             return .red
         }
     }
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -32,51 +32,51 @@ struct SleepAnalysisResultsView: View {
         .navigationTitle("Sleep Analysis")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
     private var scoreSection: some View {
         VStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .stroke(scoreColor.opacity(0.2), lineWidth: 14)
+                    .stroke(/*scoreColor*/.green.opacity(0.2), lineWidth: 14)
                     .frame(width: 150, height: 150)
-
+                
                 Circle()
-                    .trim(from: 0, to: CGFloat(result.sleepScore) / 100)
-                    .stroke(scoreColor, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .trim(from: 0, to: CGFloat(/*result.sleepScore*/82) / 100)
+                    .stroke(/*scoreColor*/.green, style: StrokeStyle(lineWidth: 14, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .frame(width: 150, height: 150)
-
-                Text("\(result.sleepScore)")
+                
+                Text("\(/*result.sleepScore*/82)")
                     .font(.system(size: 44, weight: .bold))
-                    .foregroundColor(scoreColor)
+                    .foregroundColor(/*scoreColor*/.green)
             }
-
-            Text("\(result.sleepQuality) Sleep Quality")
+            
+            Text("\(/*result.sleepQuality*/"Good") Sleep Quality")
                 .font(.title3)
                 .fontWeight(.semibold)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 8)
     }
-
+    
     private var metricsGrid: some View {
         let metrics: [(String, String)] = [
-            ("Total Sleep", formatDuration(result.totalSleepMinutes)),
-            ("Time in Bed", formatDuration(result.timeInBedMinutes)),
-            ("Sleep Efficiency", String(format: "%.1f%%", result.sleepEfficiency)),
-            ("Deep Sleep", String(format: "%.1f%%", result.deepSleepPct)),
-            ("REM Sleep", String(format: "%.1f%%", result.remSleepPct)),
-            ("Awakenings", "\(result.awakenings)"),
-            ("Sleep Latency", String(format: "%.1f min", result.sleepLatencyMinutes))
+            ("Total Sleep", /*formatDuration(result.totalSleepMinutes)*/"272"),
+            ("Time in Bed", /*formatDuration(result.timeInBedMinutes)*/"283"),
+            ("Sleep Efficiency", /*String(format: "%.1f%%", result.sleepEfficiency)*/"96.1%"),
+            ("Deep Sleep", /*String(format: "%.1f%%", result.deepSleepPct)*/"6.2%"),
+            ("REM Sleep", /*String(format: "%.1f%%", result.remSleepPct)*/"21.9%"),
+            ("Awakenings",/* "\(result.awakenings)"*/"2"),
+            ("Sleep Latency",/* String(format: "%.1f min", result.sleepLatencyMinutes)*/"10.0 min")
         ]
-
+        
         return LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
             ForEach(Array(metrics.enumerated()), id: \.offset) { _, metric in
                 metricCard(title: metric.0, value: metric.1)
             }
         }
     }
-
+    
     private func metricCard(title: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
@@ -91,22 +91,22 @@ struct SleepAnalysisResultsView: View {
         .background(Color.blue.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
-
+    
     private var stageBar: some View {
         let segments: [(String, Double, Color)] = [
-            ("Awake", result.stages.awakeMins, .red),
-            ("N1", result.stages.n1Mins, Color(red: 0.68, green: 0.85, blue: 0.95)),
-            ("N2", result.stages.n2Mins, Color(red: 0.40, green: 0.67, blue: 0.87)),
-            ("N3", result.stages.n3Mins, Color(red: 0.25, green: 0.32, blue: 0.71)),
-            ("REM", result.stages.remMins, .purple)
+            ("Awake", /*result.stages.awakeMins*/11, .red),
+            ("N1", /*result.stages.n1Mins*/17, Color(red: 0.68, green: 0.85, blue: 0.95)),
+            ("N2", /*result.stages.n2Mins*/179, Color(red: 0.40, green: 0.67, blue: 0.87)),
+            ("N3", /*result.stages.n3Mins*/17, Color(red: 0.25, green: 0.32, blue: 0.71)),
+            ("REM", /*result.stages.remMins*/60, .purple)
         ]
-
+        
         let total = segments.reduce(0) { $0 + $1.1 }
-
+        
         return VStack(alignment: .leading, spacing: 12) {
             Text("Sleep Stages")
                 .font(.headline)
-
+            
             if total > 0 {
                 GeometryReader { geometry in
                     HStack(spacing: 2) {
@@ -120,7 +120,7 @@ struct SleepAnalysisResultsView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 .frame(height: 28)
-
+                
                 HStack(alignment: .top, spacing: 8) {
                     ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
                         VStack(spacing: 4) {
@@ -148,12 +148,12 @@ struct SleepAnalysisResultsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
-
+    
     private var recommendationsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Recommendations")
                 .font(.headline)
-
+            
             ForEach(Array(result.recommendations.enumerated()), id: \.offset) { _, recommendation in
                 HStack(alignment: .top, spacing: 12) {
                     Image(systemName: "lightbulb.fill")
@@ -170,7 +170,7 @@ struct SleepAnalysisResultsView: View {
             }
         }
     }
-
+    
     private func formatDuration(_ minutes: Double) -> String {
         if minutes < 60 {
             return String(format: "%.0f min", minutes)
